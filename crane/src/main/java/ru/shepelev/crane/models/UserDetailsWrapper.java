@@ -1,7 +1,9 @@
 package ru.shepelev.crane.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -9,23 +11,22 @@ import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
+@Getter
 public class UserDetailsWrapper implements UserDetails {
 
     private User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<Authority> authorities = user.getAuthorities();
-        List<GrantedAuthorityWrapper> list = new ArrayList<>();
-        for (Authority authority : authorities) {
-            list.add(new GrantedAuthorityWrapper(authority));
-        }
-        return list;
+        String role = user.getRole();
+        List<SimpleGrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(role));
+        return roles;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword().getPassword();
+        return user.getPassword();
     }
 
     @Override
@@ -35,17 +36,17 @@ public class UserDetailsWrapper implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

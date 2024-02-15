@@ -5,15 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDto {
-
-    private String name;
-    private BigDecimal price;
-
+public class UsernamePasswordToken {
+    private String username;
+    private String password;
 }

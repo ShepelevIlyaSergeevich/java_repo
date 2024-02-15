@@ -1,5 +1,6 @@
 package ru.shepelev.crane.controllers;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
+@AllArgsConstructor
 public class ProductController {
-    private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService;
 
     @PostMapping("/create")
     public ResponseEntity<Product> create(@RequestBody ProductDto dto) {
@@ -29,23 +28,18 @@ public class ProductController {
     }
 
     @GetMapping("/read")
-    public ResponseEntity<Product> read(@PathVariable("name") String name) {
-        return new ResponseEntity<>(productService.read(name), HttpStatus.OK);
-    }
-
-    @GetMapping("/read/all")
     public ResponseEntity<List<Product>> readAll() {
         return new ResponseEntity<>(productService.readAll(), HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public ResponseEntity<Product> update(@RequestBody Product product) {
         return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public HttpStatus delete(Product product) {
-        productService.delete(product);
-        return HttpStatus.OK;
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable("id") Integer id) {
+        productService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

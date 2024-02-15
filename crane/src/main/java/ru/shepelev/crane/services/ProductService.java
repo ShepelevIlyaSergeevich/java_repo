@@ -37,14 +37,14 @@ public class ProductService {
     }
 
     public Product update(Product product) {
-        Optional<Product> optionalProduct = productRepository.findById(product.getId());
-        if (optionalProduct.isPresent()) {
-            Integer id = optionalProduct.get().getId();
-        }
         return productRepository.save(product);
     }
 
     public void delete(Product product) {
         productRepository.delete(product);
+    }
+
+    public void deleteById(Integer id) {
+        productRepository.deleteById(id);
     }
 }
